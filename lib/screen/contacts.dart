@@ -1,98 +1,74 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ContactsScreen extends StatelessWidget {
   const ContactsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, Map<String, String>> teamMembers = {
-      'Miembro1': {
-        'name': 'cristian',
-        'phone': '*133#',
-      },
-      'Miembro2': {
-        'name': 'Gerardo',
-        'phone': '9651248795'
-      },
-      'Miembro3': {
-        'name': 'Ramos',
-        'phone': '*133#'
-      },
-    };
-    
-
-    final List<Widget> teamMembersList = teamMembers.entries.map((entry) {
-      return ListTile(
-          subtitle: Text(entry.value['name'] ?? '',
-              style:
-                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.greenAccent),
-                  borderRadius: BorderRadius.circular(50),
-                  color: const Color.fromARGB(255, 21, 255, 0).withOpacity(0.1),
-                ),
-                child: IconButton(
-                  color: const Color.fromARGB(255, 0, 0, 0),
-                  icon: const Icon(Icons.phone),
-                  onPressed: () async {
-                    final phoneNumber = Uri.parse('tel:${entry.value['phone']}');
-                    if (await canLaunchUrl(phoneNumber)) {
-                      await launchUrl(phoneNumber);
-                    } else {
-                      throw 'Could not launch $phoneNumber';
-                    }
-                  },
-                ),
-              ),
-
-              const SizedBox(width: 10),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: const Color.fromARGB(255, 74, 195, 94)),
-                  borderRadius: BorderRadius.circular(50),
-                  color: const Color.fromARGB(255, 0, 255, 64).withOpacity(0.1),
-                ),
-
-                child: IconButton(
-                  color: const Color.fromARGB(255, 0, 0, 0),
-                  icon: const Icon(Icons.message),
-                  onPressed: () async {
-                    final menssageNumber = Uri.parse('sms:${entry.value['phone']}');
-                    if (await launchUrl(menssageNumber)) {
-                      await launchUrl(menssageNumber);
-                    } else {
-                      throw 'Could not launch $menssageNumber';
-                    }
-                  },
-                ),
-
-              )
-            ],
-          ));
-    }).toList();
-
     return Scaffold(
-        body: Center(
-      child: Column(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center, 
           children: <Widget>[
-            Image.asset('assets/UP.png', width: 300, height: 300),
-            const SizedBox(height: 10),
+            const CircleAvatar(
+              backgroundImage: AssetImage('assets/UP.jpg'),
+              radius: 80, 
+            ),
+            const SizedBox(height: 20),
             const Text(
-              'Ingenieria en Software 9B \n 221267 - Cristian Gerardo Vazquez Ramos',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              'Cristian Gerardo Vazquez Ramos',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 25),
-            Column(
-              children: teamMembersList,
+            const SizedBox(height: 10),
+            Text(
+              'Ingeniería en Software 9B\nProgramación Móvil II',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w400,
+                color: Colors.grey.shade700,
+              ),
+              textAlign: TextAlign.center,
             ),
-          ]),
-    ));
+            const SizedBox(height: 30),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 4,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.account_circle, color: Colors.green),
+                  SizedBox(width: 8),
+                  Text(
+                    '221267',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

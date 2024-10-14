@@ -6,9 +6,8 @@ import 'package:GvApp/screen/home.dart';
 import 'package:GvApp/screen/scafold.dart';  
 import 'package:url_launcher/url_launcher.dart';
 import 'package:GvApp/screen/chat.dart';
-import 'package:geolocator/geolocator.dart'; 
 
-final Uri _url = Uri.parse('https://github.com/cristianrm13/APP_practica'); 
+final Uri _url = Uri.parse('https://github.com/cristianrm13/APP_practica2.git'); 
 
 void main() {
   runApp(const MyApp());
@@ -49,10 +48,10 @@ class _MainScreenState extends State<MainScreen> {
   // Lista de pantallas
   final List<Widget> _screens = [
     const HomeScreen(),
-    const ContactsScreen(),
     const GladBoxHomeScreen(),
     const Products(),
     const LocationStatusScreen(),
+    const ContactsScreen(),
     const ChatScreen(),
   ];
   // Función para abrir la URL
@@ -64,7 +63,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(initialPage: _selectedIndex); // Inicializamos el PageController
+    _pageController = PageController(initialPage: _selectedIndex); // Inicializa el PageController
   }
 
   @override
@@ -79,46 +78,56 @@ class _MainScreenState extends State<MainScreen> {
     });
     _pageController.animateToPage(
       index,
-      duration: const Duration(milliseconds: 300), // Animación de cambio de página
+      duration: const Duration(milliseconds: 100), // Animación de cambio de página
       curve: Curves.easeInOut,
     );
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-        physics: const NeverScrollableScrollPhysics(),
-        children: _screens, // Desactivar deslizamiento manual
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.contacts_outlined), label: 'Contactos'),
-          BottomNavigationBarItem(icon: Icon(Icons.feed), label: 'Feed'),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_outlined), label: 'Productos'),
-          BottomNavigationBarItem(icon: Icon(Icons.location_on), label: 'Ubicación'),
-          BottomNavigationBarItem(icon: Icon(Icons.messenger), label: 'ChatBot'),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black, 
-        unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _launchUrl,  // Llama a la función _launchUrl
-        tooltip: 'Flutter',
-        backgroundColor: Colors.black,
-        child: const Icon(Icons.circle_outlined, color: Colors.white),
-      ),
-    );
-  }
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: Stack(
+      children: [
+        PageView(
+          controller: _pageController,
+          onPageChanged: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+          physics: const NeverScrollableScrollPhysics(),
+          children: _screens,
+        ),
+        Positioned(
+          top: 25, // posición vertical
+          left: 325, // posición horizontal
+          child: FloatingActionButton(
+            onPressed: _launchUrl,
+            tooltip: 'Flutter',
+            backgroundColor: const Color.fromARGB(132, 134, 133, 133),
+            elevation: 10,
+            child: const Icon(Icons.circle_outlined, color: Colors.white),
+          ),
+        ),
+      ],
+    ),
+    bottomNavigationBar: BottomNavigationBar(
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
+        BottomNavigationBarItem(icon: Icon(Icons.feed), label: 'Feed'),
+        BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_outlined), label: 'Productos'),
+        BottomNavigationBarItem(icon: Icon(Icons.location_on), label: 'Ubicación'),
+        BottomNavigationBarItem(icon: Icon(Icons.contacts_outlined), label: 'Informacion'),
+        BottomNavigationBarItem(icon: Icon(Icons.messenger), label: 'ChatBot'),
+      ],
+      currentIndex: _selectedIndex,
+      selectedItemColor: Colors.black,
+      unselectedItemColor: Colors.grey,
+      onTap: _onItemTapped,
+      backgroundColor: Colors.white,
+      elevation: 0,
+    ),
+  );
+}
 }
